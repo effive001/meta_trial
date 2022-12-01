@@ -1,0 +1,143 @@
+<html>
+  <head>
+    <script src="https://aframe.io/releases/1.3.0/aframe.min.js"></script>
+    <script src="https://unpkg.com/aframe-environment-component@1.3.1/dist/aframe-environment-component.min.js"></script>
+    <script src="https://gftruj.github.io/webzamples/aframe/controls/oculus-thumbstick-controls.js"></script>
+    <script>
+      AFRAME.registerComponent('move', {
+        init: function() {
+          // wait until the model is loaded
+          this.el.addEventListener("model-loaded", evt => {
+            const mixer = new THREE.AnimationMixer(this.el.components['gltf-model'].model);
+            const clips = this.el.components['gltf-model'].model.animations[0];
+            mixer.clipAction(clips).play();
+            // "expose" the animation mixer
+            this.mixer = mixer;
+          })
+        },
+        // on each render loop (actually before each render loop)
+        tick: function(t, dt) {
+          if (!this.mixer) return; // if the mixer exists
+          this.mixer.update(dt / 1000) // update it with the delta time
+        }
+      })
+    </script>
+
+  </head>
+  <body>
+    <a-scene  stats physics="debug: true" gltf-model="dracoDecoderPath: https://www.gstatic.com/draco/v1/decoders/;
+    meshoptDecoderPath: https://unpkg.com/meshoptimizer@0.16.0/meshopt_decoder.js;">
+        <a-assets>
+            <!-- <a-asset-item id="sci-fi_room" src="sci-fi_room.glb"></a-asset-item> -->
+            <a-asset-item id="classroom" src="classroom_scene.glb"></a-asset-item>
+            <a-asset-item id="example" src="https://market-assets.fra1.cdn.digitaloceanspaces.com/market-assets/models/low-poly-farm/model.gltf"></a-asset-item>
+            <video id="myvideo" preload="auto" src="https://cdn.aframe.io/videos/bunny.mp4" width="1280" height="720" autoplay="true" loop="true" crossorigin="anonymous" playsinline="" webkit-playsinline=""></video>
+        
+        </a-assets>
+        <!-- <a-entity
+          id="cameraRig"
+          simple-navmesh-constraint="navmesh:.navmesh;height:0;exclude:.navmesh-hole;"
+          movement-controls="speed:0.15;camera:#head;"
+          position="-1 0 1" rotation="0 45 0" origin-on-ar-start
+        > -->
+      <!-- camera -->
+        <!-- <a-entity id="head"
+          camera="near:0.01;"
+          look-controls="pointerLockEnabled: false"
+          position="0 1.65 0"
+        ></a-entity> -->
+
+        <a-entity environment="preset: default;" ></a-entity>
+        <!-- <a-entity light="type: directional; color: #FFF; intensity: 0.6"  gltf-model="mountain.glb" scale="0.5 0.5 1.27" position="-76.6 0.3 47"></a-entity> -->
+        <!-- <a-entity
+          id="cameraRig"
+          simple-navmesh-constraint="navmesh:.navmesh;fall:0.5;height:0;exclude:.navmesh-hole;"
+          movement-controls="speed:0.15;camera:#head; touch; constraintToNavMesh: True;"
+          position="-1 -3.7 1" rotation="0 45 0" origin-on-ar-start
+    > -->
+      <!-- camera -->
+        <!-- <a-entity id="head"
+          camera="near:0.01;"
+          look-controls="pointerLockEnabled: false"
+          position="0 -3.7 0"
+        ></a-entity> -->
+
+
+<!-- BASE FLOOR -->
+        <a-entity gltf-model="sci_fi_room.glb" scale="0.03 0.03 0.03" position="-40.6 0.4 0"></a-entity>
+        <a-entity gltf-model="sci_fi_room.glb" scale="0.03 0.03 0.03" position="42.6 0.4 0"></a-entity>
+        <a-entity gltf-model="sci_fi_room.glb" scale="0.03 0.03 0.03" position="0 0.4 -42.15"></a-entity>
+        <a-entity gltf-model="sci_fi_room.glb" scale="0.03 0.03 0.03" position="0 0.4 41.505"></a-entity>
+
+        <a-entity class="navmesh" gltf-model="New Folder\room.glb" scale="0.03 0.03 0.03" position="-40.6 0.4 0"></a-entity>
+        <a-entity class="navmesh" gltf-model="New Folder\room.glb" scale="0.03 0.03 0.03" position="42.6 0.4 0"></a-entity>
+        <a-entity class="navmesh" gltf-model="New Folder\room.glb" scale="0.03 0.03 0.03" position="0 0.4 -42.15"></a-entity>
+        <a-entity class="navmesh" gltf-model="New Folder\room.glb" scale="0.03 0.03 0.03" position="0 0.4 41.505"></a-entity>
+        
+        
+        <a-entity gltf-model="sc-fi_door.glb" move scale="3 3 3" position="1.107 0.717 25.352"></a-entity>
+
+        <a-entity gltf-model="panels.glb" move scale="0.03 0.03 0.03" position="-40.919 1.848 -13.398"></a-entity>
+        <a-entity gltf-model="robot.glb" move scale="2 2 2" position="55.204 0.444 -0.835" rotation="0 270 0"></a-entity>
+        <a-entity gltf-model="table.glb" move scale="0.3 0.3 0.3" position="-9.814 1.1 -41.389" rotation="0 90 0"></a-entity>
+        <a-entity gltf-model="robot_arm.glb" move scale="1 1 1" position="-11.074 0.490 41.652" rotation="0 90 0"></a-entity>
+
+
+        <a-entity gltf-model="corridor.glb" scale="0.01 0.007 0.01" position="-15.307 0.4 -0.343" rotation="-1.900 90 0"></a-entity>
+        <a-entity gltf-model="corridor.glb" scale="0.01 0.007 0.01" position="17.207 0.4 -0.343" rotation="-1.900 270 0"></a-entity>
+        <a-entity gltf-model="corridor.glb" scale="0.01 0.007 0.01" position="0.819 0.4 15.824" rotation="-1.900 180 0"></a-entity>
+        <a-entity gltf-model="corridor.glb" scale="0.01 0.007 0.01" position="1.281 -0.515 -16.870" rotation="-1.900 360 0"></a-entity>
+
+        <a-entity gltf-model="legacy_corridor.glb" scale="2 3 1.5" position="18.133 -0.279 40.816" rotation="0 40 0"></a-entity>
+        
+          <a-entity gltf-model="sci_fi_room.glb" scale="0.03 0.03 0.03" position="0 0.3 0"></a-entity>
+
+
+        <a-entity gltf-model="final_check.glb" move scale="2 2 2" position="12.556 0.4 7.435" rotation="0 -136 0"></a-entity>
+        <a-entity gltf-model="bridge.glb" scale="0.01 0.01 0.01" position="0 0.4 0" ></a-entity>
+        <a-entity gltf-model="torus_explosion.glb" move scale="2 2 2" position="0.711 18.84 -0.427" rotation="90 0 0"></a-entity>
+        <a-entity gltf-model="monolith.glb" scale="0.15 0.15 0.15" position="0.711 45 -0.427" rotation="0 0 0"></a-entity>
+        <a-entity gltf-model="colab_room.glb" scale="3 3 3" position="75.383 7.039 -76.811" rotation="0 236.5 0" ></a-entity>
+
+        <a-entity material="shader: flat; side: double; src:#myvideo" geometry="primitive: cylinder; radius: 5; height: 3.6815; open-ended: true; theta-start: 142.5; theta-length: 75; " position="0 3.318 -50.523" rotation="0 0 0" scale="-1 1 1"></a-entity>
+        <a-entity material="shader: flat; side: double; src:#myvideo" geometry="primitive: cylinder; radius: 5; height: 3.6815; open-ended: true; theta-start: 142.5; theta-length: 75; " position="-47.419 3.318 0.439" rotation="0 90 0" scale="-1 1 1"></a-entity>
+        <a-entity material="shader: flat; side: double; src:#myvideo" geometry="primitive: cylinder; radius: 5; height: 3.6815; open-ended: true; theta-start: 142.5; theta-length: 75; " position="-0.027 3.318 50.667" rotation="0 180 0" scale="-1 1 1"></a-entity>
+        <a-entity material="shader: flat; side: double; src:#myvideo" geometry="primitive: cylinder; radius: 5; height: 3.6815; open-ended: true; theta-start: 142.5; theta-length: 75; " position="42.706 3.318 9.078" rotation="0 180 0" scale="-1 1 1"></a-entity>
+
+        <a-entity gltf-model="elevator.glb" move scale="1 1 1" position="42.600 0.400 -0.528" rotation="0 0 0"></a-entity>
+        <a-entity gltf-model="elevator.glb" move scale="1 1 1" position="-40.629 1.078 -0.639" rotation="0 0 0"></a-entity>
+        <a-entity gltf-model="elevator.glb" move scale="1 1 1" position="-0.067 1.180 40.647" rotation="0 0 0"></a-entity>
+        <a-entity gltf-model="elevator.glb" move scale="1 1 1" position="-0.460 1.120 -42.740" rotation="0 0 0"></a-entity>
+
+
+<!-- SECOND LEVEL -->
+        <a-entity gltf-model="sci_fi_room.glb" scale="0.03 0.03 0.03" position="0.000 27.841 41.505"></a-entity>
+        <a-entity gltf-model="sci_fi_room.glb" scale="0.03 0.03 0.03" position="-40.600 27.841 0.000"></a-entity>
+        <a-entity gltf-model="sci_fi_room.glb" scale="0.03 0.03 0.03" position="0.000 27.841 -42.150"></a-entity>
+        <a-entity gltf-model="sci_fi_room.glb" scale="0.03 0.03 0.03" position="42.600 27.841 0.000"></a-entity>
+
+
+        <a-entity gltf-model="corridor.glb" scale="0.01 0.007 0.01" position="42.606 19.149 -3.102" rotation="90 0 0"></a-entity>
+        <a-entity gltf-model="corridor.glb" scale="0.01 0.007 0.01" position="-40.629 19.149 -3.262" rotation="90 0 0"></a-entity>
+        <a-entity gltf-model="corridor.glb" scale="0.01 0.007 0.01" position="-0.067 19.149 38.300" rotation="90 0 0"></a-entity>
+        <a-entity gltf-model="corridor.glb" scale="0.01 0.007 0.01" position="-0.016 19.149 -45.299" rotation="90 0 0"></a-entity>
+
+
+        <!-- Camera + controllers rig -->
+        <a-entity id="rig">
+          <a-camera position="0 1.6 0"></a-camera>
+          <a-entity oculus-touch-controls="hand: left" ></a-entity>
+          <a-entity oculus-touch-controls="hand: right" oculus-thumbstick-controls></a-entity>
+        </a-entity>
+
+
+    </a-scene>
+    <!-- <script>
+      document.getElementById("explosion").setAttribute("animation-mixer", "clip:swimming");
+      const timedelay = setTimeout(delayFunction, 2000);
+      function delayFunction() {
+        document.getElementById("explosion").setAttribute("animation-mixer", "clip:bite");
+      }
+    </script> -->
+  </body>
+</html>
