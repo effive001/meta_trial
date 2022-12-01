@@ -15,7 +15,7 @@
             this.mixer = mixer;
           })
         },
-        // on each render loop (actually before each render loop)
+        // on each render loop (actually before each render loop
         tick: function(t, dt) {
           if (!this.mixer) return; // if the mixer exists
           this.mixer.update(dt / 1000) // update it with the delta time
